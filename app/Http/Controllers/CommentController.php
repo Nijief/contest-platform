@@ -6,11 +6,11 @@ use App\Models\Submission;
 use App\Services\SubmissionService;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests; // Добавить этот импорт
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CommentController extends Controller
 {
-    use AuthorizesRequests; // Добавить эту строку
+    use AuthorizesRequests;
     
     protected $submissionService;
 
@@ -21,7 +21,7 @@ class CommentController extends Controller
 
     public function index(Submission $submission)
     {
-        $this->authorize('view', $submission); // Теперь работает
+        $this->authorize('view', $submission);
 
         return response()->json(
             $submission->comments()->with('user')->latest()->get()

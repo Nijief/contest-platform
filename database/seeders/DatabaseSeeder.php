@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Создаем тестовых пользователей с разными ролями
         $admin = User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
@@ -43,7 +42,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'participant',
         ]);
 
-        // Создаем конкурсы
         $contest1 = Contest::create([
             'title' => 'Science Fair 2024',
             'description' => 'Annual science fair for young researchers',
@@ -65,7 +63,6 @@ class DatabaseSeeder extends Seeder
             'is_active' => false,
         ]);
 
-        // Создаем submissions для participant1
         $submission1 = Submission::create([
             'contest_id' => $contest1->id,
             'user_id' => $participant1->id,
@@ -82,7 +79,6 @@ class DatabaseSeeder extends Seeder
             'status' => Submission::STATUS_SUBMITTED,
         ]);
 
-        // Создаем submissions для participant2
         $submission3 = Submission::create([
             'contest_id' => $contest1->id,
             'user_id' => $participant2->id,
@@ -99,7 +95,6 @@ class DatabaseSeeder extends Seeder
             'status' => Submission::STATUS_ACCEPTED,
         ]);
 
-        // Добавляем комментарии
         SubmissionComment::create([
             'submission_id' => $submission2->id,
             'user_id' => $jury->id,

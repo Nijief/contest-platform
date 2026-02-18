@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Submission;
 use App\Models\User;
-use App\Models\Notification; // Добавить этот импорт
+use App\Models\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -50,7 +50,7 @@ class NotifyStatusChangedJob implements ShouldQueue
 
     protected function createDatabaseNotification(): void
     {
-        Notification::create([ // Теперь работает
+        Notification::create([
             'user_id' => $this->submission->user_id,
             'type' => 'submission_status_changed',
             'data' => json_encode([

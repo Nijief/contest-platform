@@ -20,7 +20,7 @@ class AttachmentUploadRequest extends FormRequest
             'file' => [
                 'required',
                 'file',
-                'max:10240', // 10MB
+                'max:10240',
                 'mimes:pdf,zip,png,jpg,jpeg',
             ],
         ];

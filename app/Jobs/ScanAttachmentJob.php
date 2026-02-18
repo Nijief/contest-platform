@@ -25,7 +25,6 @@ class ScanAttachmentJob implements ShouldQueue
     public function handle(AttachmentService $attachmentService): void
     {
         try {
-            // Имитация проверки файла
             $this->validateFile($this->attachment);
 
             $attachmentService->markScanned($this->attachment);

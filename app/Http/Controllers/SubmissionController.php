@@ -7,11 +7,11 @@ use App\Services\SubmissionService;
 use App\Http\Requests\SubmissionRequest;
 use App\Http\Requests\StatusChangeRequest;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests; // Добавить этот импорт
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class SubmissionController extends Controller
 {
-    use AuthorizesRequests; // Добавить эту строку
+    use AuthorizesRequests;
     
     protected $submissionService;
 
@@ -54,7 +54,7 @@ class SubmissionController extends Controller
 
     public function show(Submission $submission)
     {
-        $this->authorize('view', $submission); // Теперь работает
+        $this->authorize('view', $submission);
         
         return response()->json(
             $submission->load(['user', 'contest', 'attachments', 'comments.user'])
@@ -77,7 +77,7 @@ class SubmissionController extends Controller
 
     public function submit(Submission $submission)
     {
-        $this->authorize('update', $submission); // Теперь работает
+        $this->authorize('update', $submission);
 
         try {
             $submission = $this->submissionService->submit($submission);
