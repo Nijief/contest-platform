@@ -51,10 +51,7 @@ QUEUE_CONNECTION=database  # Используем БД для очередей
 # Создайте папку для данных MinIO (если нет)
 mkdir C:\minio-data
 
-9. # Создайте папку для данных MinIO (если нет)
-mkdir C:\minio-data
-
-10. # Запустите контейнер
+9. # Запустите контейнер
 docker run -d \
   --name minio \
   -p 9000:9000 \
@@ -64,7 +61,7 @@ docker run -d \
   -e "MINIO_ROOT_PASSWORD=minioadmin" \
   minio/minio server /data --console-address ":9001"
 
-11. Откройте веб-интерфейс MinIO:
+10. Откройте веб-интерфейс MinIO:
 
 Перейдите в браузере: http://localhost:9001
 
@@ -74,7 +71,7 @@ docker run -d \
 
 Создайте bucket:
 
-Нажмите кнопку "Create Bucket" (справа вверху)
+Нажмите кнопку "Create Bucket"
 
 Введите имя: contests (точно как в .env файле)
 
@@ -84,10 +81,10 @@ docker run -d \
 
 В списке bucket'ов должен появиться contests
 
-12. # Зайдите в консоль Laravel
+11. # Зайдите в консоль Laravel
 php artisan tinker
 
-13. # Выполните проверку
+12. # Выполните проверку
 >>> Storage::disk('s3')->put('test.txt', 'Hello MinIO!');
 => true
 >>> Storage::disk('s3')->exists('test.txt');
@@ -96,7 +93,7 @@ php artisan tinker
 => true
 >>> exit
 
-14. Создание таблиц (миграции)
+13. Создание таблиц (миграции)
 
 # Создаем таблицу для очередей (обязательно!)
 php artisan queue:table
@@ -107,7 +104,7 @@ php artisan migrate
 # Если нужно пересоздать таблицы (удалит все данные!)
 php artisan migrate:fresh
 
-15. # Запускаем сидеры
+14. # Запускаем сидеры
 php artisan db:seed
 
 # Вы должны увидеть сообщение:
@@ -117,22 +114,22 @@ php artisan db:seed
 # participant1@example.com / password
 # participant2@example.com / password
 
-16. Настройка Sanctum (для API токенов)
+15. Настройка Sanctum (для API токенов)
 
 # Публикация конфигурации Sanctum
 php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 
-17. # Запуск
+16. # Запуск
 
 # Перейдите в папку проекта
 
 # Запустите встроенный сервер Laravel
 php artisan serve
 
-18. # Запустите воркер очередей
+17. # Запустите воркер очередей
 php artisan queue:work
 
-19. # ТЕСТОВЫЕ ПОЛЬЗОВАТЕЛИ
+18. # ТЕСТОВЫЕ ПОЛЬЗОВАТЕЛИ
 После установки у вас есть 4 тестовых пользователя:
 
 Роль|Имя|Email|Пароль
@@ -141,6 +138,33 @@ php artisan queue:work
 Участник 1|Participant One|participant1@example.com|password
 Участник 2|Participant Two|participant2@example.com|password
 
+19. # Базовый URL
+http://127.0.0.1:8000/api
+
+Аутентификация
+API использует токены (Sanctum). Процесс работы:
+
+POST /api/login - отправляете email/password, получаете токен
+
+В следующих запросах - добавляете токен в заголовок
+
+POST /api/logout - удаляете токен
+
+20. # ПРИМЕРЫ ЗАПРОСОВ
+
+ЛОГИН
+
+В командной строке (cmd)
+
+curl -X POST http://127.0.0.1:8000/api/login ^
+  -H "Content-Type: application/json" ^
+  -d "{\"email\":\"participant1@example.com\",\"password\":\"password\"}"
+
+ПРОВЕРКА АВТОРИЗАЦИИ
+Узнать информацию о текущем пользователе.
+
+curl -X GET http://127.0.0.1:8000/api/me ^
+  -H "Authorization: Bearer {ВАШ_ТОКЕН}"
 
 
 
